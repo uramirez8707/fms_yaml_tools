@@ -28,6 +28,7 @@ import click
 from os import path
 import yaml
 from .. import __version__
+from fms_yaml_tools.diag_table.simplify_diag_table_yaml import simplify_diag_file
 
 
 @click.command()
@@ -41,9 +42,11 @@ from .. import __version__
 @click.option('--is-segment/--full-table', type=click.BOOL, show_default=True, default=False,
               help="The diag_table is a segment and a not a full table, \
                     so the tile and the base_date are not expected")
+@click.option('--simplify/--no-simplify', type=click.BOOL, show_default=True, default=False,
+              help="Simplify diag_table.yaml by removing redundant reduction and kind keys")
 @click.version_option(__version__, "--version")
 @click.argument("diag-table-name")  # This is the path to the diag_table to convert
-def diag_to_yaml(diag_table_name, debug, output_yaml, force_write, is_segment):
+def diag_to_yaml(diag_table_name, debug, output_yaml, force_write, is_segment, simplify):
     """ Converts a legacy ascii diag_table to a yaml. \n
         data-table-name - data to the field table to convert \n
     """
@@ -52,7 +55,7 @@ def diag_to_yaml(diag_table_name, debug, output_yaml, force_write, is_segment):
     test_class = DiagTable(diag_table_file=diag_table_name, is_segment=is_segment, debug=debug)
     test_class.read_and_parse_diag_table()
     test_class.construct_yaml(yaml_table_file=output_yaml,
-                              force_write=force_write)
+                              force_write=force_write, simplify=simplify)
 
 
 def is_duplicate(current_files, diag_file):
@@ -535,7 +538,8 @@ class DiagTable:
 
     def construct_yaml(self,
                        yaml_table_file='diag_table.yaml',
-                       force_write=False):
+                       force_write=False,
+                       simplify=False):
         """ Combine the global, file, field, sub_region sections into 1 """
 
         out_file_op = "x"  # Exclusive write
@@ -566,6 +570,9 @@ class DiagTable:
         if nfiles == 0:
             del yaml_doc['diag_files']
         self.verboseprint("Writing the output yaml: " + yaml_table_file)
+        if simplify:
+            self.verboseprint("Simplifying the output yaml")
+            simplify_diag_file(yaml_doc)
         myfile = open(yaml_table_file, out_file_op)
         yaml.dump(yaml_doc, myfile, sort_keys=False)
 

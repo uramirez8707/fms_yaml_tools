@@ -120,6 +120,8 @@ def is_file_duplicate(diag_table, new_entry, verboseprint):
             compare_key_value_pairs(entry, new_entry, 'global_meta', is_optional=True)
             compare_key_value_pairs(entry, new_entry, 'sub_region', is_optional=True)
             compare_key_value_pairs(entry, new_entry, 'is_ocean', is_optional=True)
+            compare_key_value_pairs(entry, new_entry, 'reduction', is_optional=True)
+            compare_key_value_pairs(entry, new_entry, 'kind', is_optional=True)
 
             # Since the file is the same, check if there are any new variables to add to the file:
             verboseprint("---> Looking for new variables for the file " + new_entry["file_name"])
