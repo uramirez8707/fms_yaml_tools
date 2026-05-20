@@ -155,35 +155,30 @@ def check_for_file_for_all_var(files, fields):
                             " or delete the the line for the field.")
 
 
-def parse_region(stuff):
+def parse_region(bounds):
+    """
+    Parses a list of strings containing the bounds of a subregion.
+
+    The list is expected in the format: [x_min, x_max, y_min, y_max, z_min, z_max].
+    Any strings that are empty or contain only whitespace are removed before processing.
+
+    Returns a dictionary with:
+    - 'corner1', 'corner2', 'corner3', 'corner4': the four corners of the region,
+      represented as strings in the format "x y".
+    - 'zbounds': a string representing the z-axis bounds in the format "z_min z_max".
+    """
+
     parsed_region = {}
-    k = -1
-    for j in range(len(stuff)):
-        if (stuff[j] == ""):
-            continue  # Some lines have extra spaces ("1 10  9 11 -1 -1")
-        k = k + 1
 
-        # Set any -1 values to -999
-        if float(stuff[j]) == -1:
-            stuff[j] = "-999"
+    # Remove any empty strings caused by extra spaces in input
+    bounds = [x for x in bounds if x.strip() != '']
 
-        # Define the 4 corners and the z bounds
-        if k == 0:
-            parsed_region['corner1'] = stuff[j]
-            parsed_region['corner2'] = stuff[j]
-        elif k == 1:
-            parsed_region['corner3'] = stuff[j]
-            parsed_region['corner4'] = stuff[j]
-        elif k == 2:
-            parsed_region['corner1'] = parsed_region['corner1'] + ' ' + stuff[j]
-            parsed_region['corner2'] = parsed_region['corner2'] + ' ' + stuff[j]
-        elif k == 3:
-            parsed_region['corner3'] = parsed_region['corner3'] + ' ' + stuff[j]
-            parsed_region['corner4'] = parsed_region['corner4'] + ' ' + stuff[j]
-        elif k == 4:
-            parsed_region['zbounds'] = stuff[j]
-        elif k == 5:
-            parsed_region['zbounds'] = parsed_region['zbounds'] + ' ' + stuff[j]
+    parsed_region['corner1'] = f"{bounds[0]} {bounds[2]}"
+    parsed_region['corner2'] = f"{bounds[0]} {bounds[3]}"
+    parsed_region['corner3'] = f"{bounds[1]} {bounds[2]}"
+    parsed_region['corner4'] = f"{bounds[1]} {bounds[3]}"
+    parsed_region['zbounds'] = f"{bounds[4]} {bounds[5]}"
+
     return parsed_region
 
 
