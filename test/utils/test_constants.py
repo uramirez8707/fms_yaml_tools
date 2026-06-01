@@ -493,3 +493,132 @@ DIAG_TABLE_SAMPLE1_YAML = {
         }
     ],
 }
+
+DIAG_TABLE_BAD_REDUCTION = {
+    'title': 'title',
+    # Base date is using negative numbers of months, minutes and seconds
+    'base_date': '1 1 1 0 0 0',
+    "diag_files": [
+        {
+            "file_name": "RTA_aircraft",
+            "time_units": "days",
+            "unlimdim": "time",
+            "sub_region": [
+                {
+                    "grid_type": "latlon",
+                    "corner1": "199.53 -22.02",
+                    "corner2": "199.53 -20.33",
+                    "corner3": "201.19 -22.02",
+                    "corner4": "201.19 -20.33",
+                }
+            ],
+            "freq": "1 hours",
+            "varlist": [
+                {
+                    "module": "dynamics",
+                    "var_name": "H2",
+                    "output_name": "NO",
+                    "reduction": "potato",
+                    "zbounds": "393.00 1000.00",
+                    "kind": "r4",
+                }
+            ],
+        }
+    ],
+}
+
+DIAG_TABLE_BAD_BASEDATE = {
+    'title': 'title',
+    # Base date is using negative numbers of months, minutes and seconds
+    'base_date': '65 -1 0 8 -9 -10',
+    "diag_files": [
+        {
+            "file_name": "RTA_aircraft",
+            "time_units": "days",
+            "unlimdim": "time",
+            "sub_region": [
+                {
+                    "grid_type": "latlon",
+                    "corner1": "199.53 -22.02",
+                    "corner2": "199.53 -20.33",
+                    "corner3": "201.19 -22.02",
+                    "corner4": "201.19 -20.33",
+                }
+            ],
+            "freq": "1 hours",
+            "varlist": [
+                {
+                    "module": "dynamics",
+                    "var_name": "H2",
+                    "output_name": "NO",
+                    "reduction": "average",
+                    "zbounds": "393.00 1000.00",
+                    "kind": "r4",
+                }
+            ],
+        }
+    ],
+}
+
+DIAG_TABLE_BAD_SUBREGION = {
+    'title': 'title',
+    'base_date': '1 1 1 0 0 0',
+    "diag_files": [
+        {
+            "file_name": "RTA_aircraft",
+            "time_units": "days",
+            "unlimdim": "time",
+            "sub_region": [
+                {
+                    "grid_type": "latlon",
+                    "corner1": "199.53, -22.02", # Commas are not allowed
+                    "corner2": "199.53wut -20.33", # Must be readl numbers
+                    "corner3": "201.19 -22.02",
+                    "corner4": "201.19            -20.33", # Only one space
+                }
+            ],
+            "freq": "1 hours",
+            "varlist": [
+                {
+                    "module": "dynamics",
+                    "var_name": "H2",
+                    "output_name": "NO",
+                    "reduction": "none",
+                    "zbounds": "393.00 1000.00",
+                    "kind": "r4",
+                }
+            ],
+        }
+    ],
+}
+
+DIAG_TABLE_MISSING_KIND = {
+    'title': 'title',
+    'base_date': '1 1 1 0 0 0',
+    "diag_files": [
+        {
+            "file_name": "RTA_aircraft",
+            "time_units": "days",
+            "unlimdim": "time",
+            "sub_region": [
+                {
+                    "grid_type": "latlon",
+                    "corner1": "199.53 -22.02",
+                    "corner2": "199.53 -20.33",
+                    "corner3": "201.19 -22.02",
+                    "corner4": "201.19 -20.33",
+                }
+            ],
+            "freq": "1 hours",
+            "varlist": [
+                {
+                    "module": "dynamics",
+                    "var_name": "H2",
+                    "output_name": "NO",
+                    "reduction": "average",
+                    "zbounds": "393.00 1000.00",
+                }
+            ],
+        }
+    ],
+}

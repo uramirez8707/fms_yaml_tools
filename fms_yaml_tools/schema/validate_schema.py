@@ -23,7 +23,8 @@ import click
 import yaml
 import json
 import sys
-from jsonschema import validate, ValidationError, Draft7Validator
+from jsonschema import Draft7Validator
+from jsonschema.exceptions import relevance
 
 """ This program is used for validating a file against a schema.  The
 schema is written in JSON format, so the file it is validating must be
@@ -55,7 +56,7 @@ def valyaml(ypath, spath, debug, success):
     validate_yaml(ypath, spath, debug, success)
 
 
-def validate_yaml(ypath, spath, debug, success):
+def validate_yaml(ypath, spath, debug, success, yaml_version=None):
     """Validate a YAML file against a JSON schema.
 
     Args:
@@ -83,17 +84,24 @@ def validate_yaml(ypath, spath, debug, success):
     schema = json.loads(s)
     verboseprint("Validate "+str(ypath)+" against "+str(spath))
 
-    try:
-        validate(instance=y, schema=schema)
-    except ValidationError:
-        print("The following errors have occurred:\n")
-        vr = Draft7Validator(schema)
-        errors = vr.iter_errors(y)
-        i = 1
-        for err in errors:
-            print("(" + str(i) + ") " + err.message + "---" + str(err.path))
-            i = i + 1
-        sys.exit("ERROR " + str(ypath) + " is not a valid yaml")
+    # TODO Update all of is_valid_* scripts to pass in a yaml_version
+    # to make the error messages less generic
+    vr = Draft7Validator(schema)
+    errors = list(vr.iter_errors(y))
+    if yaml_version is not None:
+        return errors, y
+
+    if errors:
+        print(f"The following errors occurred while validating {ypath}:\n")
+
+        sorted_errors = sorted(errors, key=relevance, reverse=True)
+
+        for i, err in enumerate(sorted_errors, 1):
+            path = "/" + "/".join(map(str, err.absolute_path))
+            print(f"({i}) {err.message} --- Path: {path}")
+
+        sys.exit(f"\nERROR: {ypath} is not a valid yaml")
+
     if success or debug:
         print(str(ypath)+" was successfully validated against the schema "+str(spath))
 

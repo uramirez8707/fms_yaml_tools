@@ -37,6 +37,11 @@ from utils.test_constants import (
     COMBINE_WITH_SIMPLIFIED_YAML,
     COMBINE_WITH_VARLIST_MODULES,
     DIAG_TABLES_WITH_MODULE_BLOCKS_ANCHORS,
+    DIAG_TABLE_SAMPLE1_YAML,
+    DIAG_TABLE_BAD_BASEDATE,
+    DIAG_TABLE_BAD_REDUCTION,
+    DIAG_TABLE_BAD_SUBREGION,
+    DIAG_TABLE_MISSING_KIND
 )
 
 
@@ -60,7 +65,7 @@ def create_directory(tmp_path: pathlib.Path):
 
 class ValidateDiagYaml(unittest.TestCase):
     # Test with a yaml that does not exist
-    def _run_yaml_dict_test(self, yaml_input):
+    def _run_yaml_dict_test(self, yaml_input, exit_code=0):
         """Run CLI validation on either a dict or a YAML string."""
         with tempfile.TemporaryDirectory() as testdir:
             with create_directory(testdir):
@@ -86,7 +91,7 @@ class ValidateDiagYaml(unittest.TestCase):
 
                 self.assertEqual(
                     result.exit_code,
-                    0,
+                    exit_code,
                     msg=f"CLI failed:\n{result.output}"
                 )
     # These are all testing the valid output from test_combine_diag_table
@@ -112,4 +117,18 @@ class ValidateDiagYaml(unittest.TestCase):
     def test_valid_diag_yaml_with_anchors_raw(self):
         self._run_yaml_dict_test(DIAG_TABLES_WITH_MODULE_BLOCKS_ANCHORS)
 
-    # TODO Negative tests
+    def test_valid_diag_yaml_with_subregions(self):
+        self._run_yaml_dict_test(DIAG_TABLE_SAMPLE1_YAML)
+
+    # Negative Tests:
+    def test_valid_diag_yaml_bad_basedate(self):
+        self._run_yaml_dict_test(DIAG_TABLE_BAD_BASEDATE, exit_code=1)
+
+    def test_valid_diag_yaml_bad_reduction(self):
+        self._run_yaml_dict_test(DIAG_TABLE_BAD_REDUCTION, exit_code=1)
+
+    def test_valid_diag_yaml_bad_subregion(self):
+        self._run_yaml_dict_test(DIAG_TABLE_BAD_SUBREGION, exit_code=1)
+
+    def test_valid_diag_yaml_missing_kind(self):
+        self._run_yaml_dict_test(DIAG_TABLE_MISSING_KIND, exit_code=1)
