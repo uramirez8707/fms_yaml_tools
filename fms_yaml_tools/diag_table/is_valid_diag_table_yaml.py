@@ -24,6 +24,7 @@ import importlib.resources
 from fms_yaml_tools.schema.validate_schema import validate_yaml
 import sys
 
+
 @click.command()
 # Debug is used to print more information to the screen.
 @click.option('--debug/--no-debug', type=click.BOOL, show_default=True, default=False,
@@ -49,7 +50,8 @@ def clean_error(err, file_name):
     """
     if file_name is not None:
         if "not valid under any of the given schemas" in err:
-            return "is not valid under any of the give schemas. Check your entry. Ensure all of the required keys are present!"
+            return ("is not valid under any of the given schemas. Check your entry. "
+                    "Ensure all of the required keys are present!")
     return err
 
 
@@ -69,7 +71,7 @@ def parse_diag_error_message(err, y):
                 var_idx = path[3]
                 var_name = y["diag_files"][file_idx]["varlist"][var_idx].get("var_name", f"index {var_idx}")
                 msg += f", variable '{var_name}'"
-        except:
+        except (IndexError, KeyError, TypeError):
             pass
 
     failed_prop = path[-1] if path else "root"

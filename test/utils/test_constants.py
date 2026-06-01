@@ -571,10 +571,10 @@ DIAG_TABLE_BAD_SUBREGION = {
             "sub_region": [
                 {
                     "grid_type": "latlon",
-                    "corner1": "199.53, -22.02", # Commas are not allowed
-                    "corner2": "199.53wut -20.33", # Must be readl numbers
+                    "corner1": "199.53, -22.02",  # Commas are not allowed
+                    "corner2": "199.53wut -20.33",  # Must be readl numbers
                     "corner3": "201.19 -22.02",
-                    "corner4": "201.19            -20.33", # Only one space
+                    "corner4": "201.19            -20.33",  # Only one space
                 }
             ],
             "freq": "1 hours",
