@@ -460,19 +460,31 @@ DIAG_TABLE_SAMPLE1 = """
 """
 
 DIAG_TABLE_SAMPLE1_YAML = {
-'diag_files': [{'file_name': 'RTA_aircraft',
-                'time_units': 'days',
-                'unlimdim': 'time',
-                'sub_region': [{'grid_type': 'latlon',
-                                'corner1': '199.53 -22.02',
-                                'corner2': '199.53 -20.33',
-                                'corner3': '201.19 -22.02',
-                                'corner4': '201.19 -20.33'}],
-                'freq': '1 hours',
-                'varlist': [{'module': 'dynamics',
-                             'var_name': 'H2',
-                             'output_name': 'NO',
-                             'reduction': 'average',
-                             'zbounds': '393.00 1000.00',
-                             'kind': 'r4'}]}]
+    "diag_files": [
+        {
+            "file_name": "RTA_aircraft",
+            "time_units": "days",
+            "unlimdim": "time",
+            "sub_region": [
+                {
+                    "grid_type": "latlon",
+                    "corner1": "199.53 -22.02",
+                    "corner2": "199.53 -20.33",
+                    "corner3": "201.19 -22.02",
+                    "corner4": "201.19 -20.33",
+                }
+            ],
+            "freq": "1 hours",
+            "varlist": [
+                {
+                    "module": "dynamics",
+                    "var_name": "H2",
+                    "output_name": "NO",
+                    "reduction": "average",
+                    "zbounds": "393.00 1000.00",
+                    "kind": "r4",
+                }
+            ],
+        }
+    ],
 }
