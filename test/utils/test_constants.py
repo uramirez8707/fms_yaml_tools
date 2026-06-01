@@ -454,12 +454,17 @@ TEST_SIMPLIFY_DIAG_TABLE_MULTIPLE_MODS = {
 }
 
 DIAG_TABLE_SAMPLE1 = """
+title
+1 1 1 0 0 0
+
 "RTA_aircraft",1,"hours",1,"days","time",
 
 "dynamics", "H2", "NO", "RTA_aircraft", "all", .true., "199.53 201.19 -22.02 -20.33 393.00 1000.00", 2
 """
 
 DIAG_TABLE_SAMPLE1_YAML = {
+    'title': 'title',
+    'base_date': '1 1 1 0 0 0',
     "diag_files": [
         {
             "file_name": "RTA_aircraft",

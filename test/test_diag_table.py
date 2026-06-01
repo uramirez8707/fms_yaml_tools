@@ -58,8 +58,8 @@ class TestDiagTableToYaml(unittest.TestCase):
                 pathlib.Path("diag_table").write_text(diag_table)
 
                 runner = CliRunner()
-                result = runner.invoke(diag_to_yaml, ["diag_table", "--is-segment"])
-                assert result.exit_code == 0
+                result = runner.invoke(diag_to_yaml, ["diag_table"])
+                assert result.exit_code == 0, f"CLI failed with output:\n{result.output}"
 
                 output_file = pathlib.Path("diag_table.yaml")
                 self.assertTrue(
