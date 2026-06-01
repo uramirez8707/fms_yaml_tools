@@ -30,6 +30,7 @@ from click.testing import CliRunner
 from fms_yaml_tools.diag_table.diag_table_to_yaml import diag_to_yaml
 from utils.test_constants import DIAG_TABLE_SAMPLE1, DIAG_TABLE_SAMPLE1_YAML
 
+
 @contextmanager
 def create_directory(tmp_path: pathlib.Path):
     """Set the cwd to the path
@@ -67,4 +68,3 @@ class TestDiagTableToYaml(unittest.TestCase):
 
                 yaml_contents = yaml.safe_load(output_file.read_text())
                 self.assertEqual(yaml_contents, DIAG_TABLE_SAMPLE1_YAML)
-                
