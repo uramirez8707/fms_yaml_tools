@@ -20,7 +20,6 @@
 # ***********************************************************************
 
 import unittest
-import copy
 import tempfile
 import os
 import pathlib
@@ -50,11 +49,13 @@ def create_directory(tmp_path: pathlib.Path):
 
 
 class TestDiagTableToYaml(unittest.TestCase):
-
     def test_diag_table_to_yaml_cli(self):
+        self.run_cli_test(DIAG_TABLE_SAMPLE1, DIAG_TABLE_SAMPLE1_YAML)
+
+    def run_cli_test(self, diag_table, reference):
         with tempfile.TemporaryDirectory() as testdir:
             with create_directory(testdir):
-                pathlib.Path("diag_table").write_text(DIAG_TABLE_SAMPLE1)
+                pathlib.Path("diag_table").write_text(diag_table)
 
                 runner = CliRunner()
                 result = runner.invoke(diag_to_yaml, ["diag_table", "--is-segment"])
@@ -67,4 +68,4 @@ class TestDiagTableToYaml(unittest.TestCase):
                 )
 
                 yaml_contents = yaml.safe_load(output_file.read_text())
-                self.assertEqual(yaml_contents, DIAG_TABLE_SAMPLE1_YAML)
+                self.assertEqual(yaml_contents, reference)
