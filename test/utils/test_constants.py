@@ -128,7 +128,7 @@ COMBINE_WITH_ANCHORS = {
                 {
                     'var_name': 'var3',
                     'output_name': 'var3_Z',
-                    'zbounds': '2. 3.'
+                    'zbounds': '2.0 3.0'
                 },
                 {'var_name': 'var773'},
                 {'var_name': 'var609'}
@@ -147,7 +147,7 @@ common_vars: &common_vars
   - var_name: var4
   - var_name: var3
     output_name: var3_Z
-    zbounds: "2. 3."
+    zbounds: "2.0 3.0"
 
 title: test_none
 base_date: "2 1 1 0 0 0"
@@ -174,7 +174,7 @@ common_vars: &common_vars
   - var_name: var4
   - var_name: var3
     output_name: var3_Z
-    zbounds: "2. 3."
+    zbounds: "2.0 3.0"
 
 title: test_none
 base_date: "2 1 1 0 0 0"
@@ -451,4 +451,28 @@ TEST_SIMPLIFY_DIAG_TABLE_MULTIPLE_MODS = {
             ]
         }
     ]
+}
+
+DIAG_TABLE_SAMPLE1 = """
+"RTA_aircraft",1,"hours",1,"days","time",
+
+"dynamics", "H2", "NO", "RTA_aircraft", "all", .true., "199.53 201.19 -22.02 -20.33 393.00 1000.00", 2
+"""
+
+DIAG_TABLE_SAMPLE1_YAML = {
+'diag_files': [{'file_name': 'RTA_aircraft',
+                 'time_units': 'days',
+                 'unlimdim': 'time',
+                 'sub_region': [{'grid_type': 'latlon',
+                                 'corner1': '199.53 -22.02',
+                                 'corner2': '199.53 -20.33',
+                                 'corner3': '201.19 -22.02',
+                                 'corner4': '201.19 -20.33'}],
+                 'freq': '1 hours',
+                 'varlist': [{'module': 'dynamics',
+                              'var_name': 'H2',
+                              'output_name': 'NO',
+                              'reduction': 'average',
+                              'zbounds': '393.00 1000.00',
+                              'kind': 'r4'}]}]
 }
